@@ -1,0 +1,27 @@
+{
+  "name": "contactmanager",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.1",
+    "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "react-scroll": "^1.7.13",
+    "redux": "^4.0.0",
+    "redux-auth-wrapper": "^2.1.0",
+    "redux-thunk": "^2.3.0",
+    "sweetalert2-react": "^0.8.2",
+    "uuid": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
