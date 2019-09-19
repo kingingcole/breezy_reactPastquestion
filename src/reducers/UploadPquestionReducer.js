@@ -44,7 +44,9 @@ const initialState = {
   all_email: '',
   all_message: '',
   jsvoteupshow: '',
-  jsvotedownshow: ''
+  jsvotedownshow: '',
+  uploaded_by: '',
+  results_state: false
 };
 
 export default function(state = initialState, action) {
@@ -69,7 +71,8 @@ export default function(state = initialState, action) {
     case GET_PASTQUESTION:
       return {
         ...state,
-        questions: action.payload
+        questions: action.payload,
+        results_state: false
       };
 
     case GET_FIRSTPASTQUESTION:
@@ -94,7 +97,9 @@ export default function(state = initialState, action) {
     case SEARCH_PASTQUESTION:
       return {
         ...state,
-        results: action.payload
+        results: action.payload,
+        search: '',
+        results_state: action.payload1
       };
 
     case GET_SINGLEITEM:
@@ -103,7 +108,8 @@ export default function(state = initialState, action) {
         singleitem: action.payload,
         singleimages: action.payload.image,
         singledocs: action.payload.document,
-        singlecomments: action.payload.comment
+        singlecomments: action.payload.comment,
+        uploaded_by: action.payload.uploaded_by
       };
 
     case PQS_ARRAY:

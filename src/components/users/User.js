@@ -23,7 +23,11 @@ class User extends Component {
 
   delete = e => {
     const { deletedPqs } = this.props;
-    this.props.deletePastquestion(deletedPqs);
+    let data = {
+      past_questions: deletedPqs,
+      _method: 'DELETE'
+    };
+    this.props.deletePastquestion(data);
     e.preventDefault();
   };
 
@@ -34,9 +38,9 @@ class User extends Component {
 
   onUserPix2 = () => {
     let picFormData = new FormData();
-    picFormData.append('', this.userPic.files[0]);
-    picFormData.append('fileName', this.userPic.files[0].name);
-    console.log(this.userPic.files[0]);
+    picFormData.append('photos', this.userPic.files[0]);
+
+    picFormData.append('id', this.props.user.id);
     return picFormData;
   };
 
@@ -50,10 +54,28 @@ class User extends Component {
   };*/
 
   proPix = e => {
-    const { id } = this.props.user;
-    this.props.updatePix(this.onUserPix2(), id);
+    this.props.updatePix(this.onUserPix2());
 
     e.preventDefault();
+  };
+
+  handleImageUpload = () => {
+    let widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'exampaperonline',
+        uploadPreset: 'axgm909r',
+        maxFileSize: 100000
+      },
+      async function(error, result) {
+        //
+        if (result && result.event === 'success') {
+          let ourURL = await result.info.secure_url;
+          this.props.updatePix(ourURL);
+        }
+      }
+    );
+
+    widget.open();
   };
 
   render() {
@@ -85,7 +107,13 @@ class User extends Component {
                         />
                       </a>
                       <i
-                        style={{ position: 'relative', bottom: 13, right: 28 }}
+                        onClick={this.handleImageUpload}
+                        style={{
+                          position: 'relative',
+                          bottom: 13,
+                          right: 28,
+                          cursor: 'pointer'
+                        }}
                         className="fa fa-camera fa-lg"
                       />
                     </div>
@@ -108,7 +136,7 @@ class User extends Component {
                     </button>
                   </Link>
                 </div>
-                <form className="contact-form">
+                <form className="contact-form" style={{ display: 'none' }}>
                   {/*<input 
                     type="file"
                     name="userpix"

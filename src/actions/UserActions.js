@@ -106,18 +106,10 @@ export const usereditPix = image => {
   };
 };*/
 
-export const updatePix = (photos, id) => {
-  console.log(photos, 'the file actually came here');
-
-  let data = {
-    photos,
-    id
-  };
-  const config = { header: { 'Content-Type': 'multipart/form-data' } };
-
+export const updatePix = photo => {
   return dispatch => {
     axios
-      .post('https://pastquestions.xyz/api/v1/user/edit', data, config)
+      .post('https://pastquestions.xyz/api/v1/user/edit', { img_url: photo })
       .then(res => {
         dispatch({
           type: UPDATE_PIX,
