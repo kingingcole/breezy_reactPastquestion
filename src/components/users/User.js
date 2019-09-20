@@ -23,22 +23,48 @@ class User extends Component {
 
   delete = e => {
     const { deletedPqs } = this.props;
-    this.props.deletePastquestion(deletedPqs);
+    const { id } = this.props.user;
+    let data = {
+      past_questions: deletedPqs,
+      _method: 'DELETE'
+    };
+    this.props.deletePastquestion(data, id);
     e.preventDefault();
   };
 
-  /** onUserPix = e => {
+  onUserPix = e => {
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+    this.createImage(files[0]);
+  };
+  createImage = file => {
+    let reader = new FileReader();
+    reader.onload = e => {
+      this.props.usereditPix(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  proPix = e => {
+    const { id } = this.props.user;
+    const { userpix } = this.props;
+    this.props.updatePix(userpix, id);
+
+    e.preventDefault();
+  };
+
+  /**onUserPix = e => {
     const file = e.target.files[0];
     this.props.usereditPix(file);
   };*/
 
-  onUserPix2 = () => {
+  /**onUserPix2 = () => {
     let picFormData = new FormData();
-    picFormData.append('', this.userPic.files[0]);
-    picFormData.append('fileName', this.userPic.files[0].name);
-    console.log(this.userPic.files[0]);
+    picFormData.append('photos', this.userPic.files[0]);
+
+    picFormData.append('id', this.props.user.id);
     return picFormData;
-  };
+  };*/
 
   /**onUserPix = e => {
     let files = e.target.files;
@@ -49,12 +75,32 @@ class User extends Component {
     };
   };*/
 
-  proPix = e => {
+  /**proPix = e => {
     const { id } = this.props.user;
-    this.props.updatePix(this.onUserPix2(), id);
+    const { userpix } = this.props;
+    this.props.updatePix(userpix, id);
 
     e.preventDefault();
-  };
+  };*/
+
+  /**handleImageUpload = () => {
+    let widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'exampaperonline',
+        uploadPreset: 'axgm909r',
+        maxFileSize: 100000
+      },
+      async function(error, result) {
+        //
+        if (result && result.event === 'success') {
+          let ourURL = await result.info.secure_url;
+          this.props.updatePix(ourURL);
+        }
+      }
+    );
+
+    widget.open();
+  };*/
 
   render() {
     const { singleuser, singleuserdocs, prev, next } = this.props;
@@ -85,7 +131,13 @@ class User extends Component {
                         />
                       </a>
                       <i
-                        style={{ position: 'relative', bottom: 13, right: 28 }}
+                        onClick={this.handleImageUpload}
+                        style={{
+                          position: 'relative',
+                          bottom: 13,
+                          right: 28,
+                          cursor: 'pointer'
+                        }}
                         className="fa fa-camera fa-lg"
                       />
                     </div>
@@ -109,16 +161,16 @@ class User extends Component {
                   </Link>
                 </div>
                 <form className="contact-form">
-                  {/*<input 
+                  <input
                     type="file"
                     name="userpix"
                     onChange={this.onUserPix.bind(this)}
-/>*/}
-                  <input
+                  />
+                  {/*<input
                     ref={ref => (this.userPic = ref)}
                     type="file"
                     name="userpix"
-                  />
+                  />*/}
                   <button onClick={this.proPix.bind(this)}>upload</button>
                 </form>
               </div>

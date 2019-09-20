@@ -158,12 +158,24 @@ export const searchpastQuestion = data => {
         `https://pastquestions.xyz/api/v1/pastquestion/singlesearch?search=${data}`
       )
       .then(res => {
-        dispatch({
-          type: SEARCH_PASTQUESTION,
-          payload: res.data.data.data
-        });
+        console.log(res.data.status_code, 'i am res');
+        if (res.data.status_code === 200) {
+          dispatch({
+            type: SEARCH_PASTQUESTION,
+            payload: res.data.data.data,
+            payload1: true
+          });
+        }
       })
-      .catch(err => console.log(err, 'i am err'));
+      .catch(err => {
+        if (err.response.status !== 200) {
+          dispatch({
+            type: SEARCH_PASTQUESTION,
+            payload: [],
+            payload1: true
+          });
+        }
+      });
   };
 };
 
@@ -176,9 +188,7 @@ export const getsingleItem = id => {
           type: GET_SINGLEITEM,
           payload: res.data.data
         });
-        //if (res.data.data.uploaded_by) {
-        getuserInfo(res.data.data.uploaded_by);
-        // }
+        dispatch(getuserInfo(res.data.data.uploaded_by));
       })
       .catch(err => console.log(err, 'i am err'));
   };
@@ -244,22 +254,34 @@ export const deletepqsArray = id => {
   };
 };
 
-export const deletePastquestion = past_questions => {
-  let data = { past_questions };
+export const deletePastquestion = (data, userId) => {
   console.log(data, 'i am');
   return dispatch => {
     axios
-      .delete('https://pastquestions.xyz/api/v1/pastquestion/batchdelete', data)
+      .post('https://pastquestions.xyz/api/v1/pastquestion/batchdelete', data)
       .then(res => {
         dispatch({
           type: DELETE_PQUESTION,
           payload: res.data.message
         });
-        if (res.data.message) {
-          console.log(res.data.message);
-        }
+        dispatch(getuserInfo(userId));
+        Swal.fire({
+          type: 'success',
+          text: res.data
+            ? res.data.message
+            : 'Past Question(s) deleted Successfully'
+        });
       })
-      .catch(err => console.log(err, 'i am err'));
+      .catch(err => {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: err.response
+            ? err.response.data.message
+            : 'Something went wrong',
+          confirmButtonText: 'Ok'
+        });
+      });
   };
 };
 
@@ -285,6 +307,7 @@ export const commentQuestion = (comment, past_question_id) => {
           type: COMMENT_QUESTION,
           payload: res.data.message
         });
+        dispatch(getsingleItem(past_question_id));
         Swal.fire({
           type: 'success',
           text: res.data ? res.data.message : 'Comment Sent Successfully'

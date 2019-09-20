@@ -24,7 +24,7 @@ class ForgotPassword extends Component {
                       className="card-header card-header-primary text-center"
                       style={{ paddingBottom: 28 }}
                     >
-                      <h4 className="card-title">Retrieve Password</h4>
+                      <h4 className="card-title">Forgot Password</h4>
                     </div>
 
                     <div className="card-body">

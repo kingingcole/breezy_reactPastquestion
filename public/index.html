@@ -57,6 +57,10 @@
     <script src="/assets/js/core/jquery.min.js" type="text/javascript"></script>
     <script src="/assets/js/core/popper.min.js" type="text/javascript"></script>
     <script
+      src="https://widget.cloudinary.com/v2.0/global/all.js"
+      type="text/javascript"
+    ></script>
+    <script
       src="/assets/js/core/bootstrap-material-design.min.js"
       type="text/javascript"
     ></script>
@@ -78,5 +82,24 @@
       src="/assets/js/material-kit.js?v=2.0.5"
       type="text/javascript"
     ></script>
+    <script>
+      // var nav = document.getElementsByClassName('navbar'); // Identify target
+      window.addEventListener('scroll', function(event) {
+        // To listen for event
+        event.preventDefault();
+        if (window.scrollY <= 80) {
+          document
+            .getElementById('myNavbar')
+            .classList.add('navbar-transparent');
+          document.getElementById('myNavbar').classList.remove('breezy');
+          // Just an example
+        } else {
+          document
+            .getElementById('myNavbar')
+            .classList.remove('navbar-transparent');
+          document.getElementById('myNavbar').classList.add('breezy');
+        }
+      });
+    </script>
   </body>
 </html>
