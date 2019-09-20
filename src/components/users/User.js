@@ -23,26 +23,48 @@ class User extends Component {
 
   delete = e => {
     const { deletedPqs } = this.props;
+    const { id } = this.props.user;
     let data = {
       past_questions: deletedPqs,
       _method: 'DELETE'
     };
-    this.props.deletePastquestion(data);
+    this.props.deletePastquestion(data, id);
     e.preventDefault();
   };
 
-  /** onUserPix = e => {
+  onUserPix = e => {
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+    this.createImage(files[0]);
+  };
+  createImage = file => {
+    let reader = new FileReader();
+    reader.onload = e => {
+      this.props.usereditPix(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  proPix = e => {
+    const { id } = this.props.user;
+    const { userpix } = this.props;
+    this.props.updatePix(userpix, id);
+
+    e.preventDefault();
+  };
+
+  /**onUserPix = e => {
     const file = e.target.files[0];
     this.props.usereditPix(file);
   };*/
 
-  onUserPix2 = () => {
+  /**onUserPix2 = () => {
     let picFormData = new FormData();
     picFormData.append('photos', this.userPic.files[0]);
 
     picFormData.append('id', this.props.user.id);
     return picFormData;
-  };
+  };*/
 
   /**onUserPix = e => {
     let files = e.target.files;
@@ -53,13 +75,15 @@ class User extends Component {
     };
   };*/
 
-  proPix = e => {
-    this.props.updatePix(this.onUserPix2());
+  /**proPix = e => {
+    const { id } = this.props.user;
+    const { userpix } = this.props;
+    this.props.updatePix(userpix, id);
 
     e.preventDefault();
-  };
+  };*/
 
-  handleImageUpload = () => {
+  /**handleImageUpload = () => {
     let widget = window.cloudinary.createUploadWidget(
       {
         cloudName: 'exampaperonline',
@@ -76,7 +100,7 @@ class User extends Component {
     );
 
     widget.open();
-  };
+  };*/
 
   render() {
     const { singleuser, singleuserdocs, prev, next } = this.props;
@@ -136,17 +160,17 @@ class User extends Component {
                     </button>
                   </Link>
                 </div>
-                <form className="contact-form" style={{ display: 'none' }}>
-                  {/*<input 
+                <form className="contact-form">
+                  <input
                     type="file"
                     name="userpix"
                     onChange={this.onUserPix.bind(this)}
-/>*/}
-                  <input
+                  />
+                  {/*<input
                     ref={ref => (this.userPic = ref)}
                     type="file"
                     name="userpix"
-                  />
+                  />*/}
                   <button onClick={this.proPix.bind(this)}>upload</button>
                 </form>
               </div>

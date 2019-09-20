@@ -17,19 +17,20 @@ class Header extends Component {
       return { isAuthenticated: false };
     }
   }
+
   render() {
     const { isAuthenticated } = this.state;
 
     return (
       <nav
-        className="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg"
+        className="navbar fixed-top navbar-expand-lg"
         color-on-scroll={100}
-        id="sectionsNav"
+        id="myNavbar"
       >
         <div className="container">
           <div className="navbar-translate">
             <Link to="/">
-              <a href="" className="navbar-brand" style={{ color: '#ffff' }}>
+              <a href="" className="navbar-brand" style={{ color: '#fff' }}>
                 Exam Paper Online{' '}
               </a>
             </Link>
@@ -51,15 +52,25 @@ class Header extends Component {
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to="/dashboard">
-                    <div className="nav-link" style={{ cursor: 'pointer' }}>
-                      <i className="material-icons">layers</i> Dashboard
+                    <div
+                      className="nav-link"
+                      style={{ cursor: 'pointer', color: '#fff' }}
+                    >
+                      <i className="fas fa-tachometer-alt"></i> Dashboard
                     </div>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/user">
-                    <div className="nav-link" style={{ cursor: 'pointer' }}>
-                      <i className="material-icons">layers</i> Profile
+                    <div
+                      className="nav-link"
+                      style={{
+                        cursor: 'pointer',
+                        color: '#fff',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <i className="fas fa-user"></i> Profile
                     </div>
                   </Link>
                 </li>
@@ -67,9 +78,9 @@ class Header extends Component {
                   <div
                     className="nav-link"
                     onClick={this.props.logoutUser}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', color: '#fff' }}
                   >
-                    <i className="material-icons">layers</i> Log Out
+                    <i className="fas fa-sign-out-alt"></i> Log Out
                   </div>
                 </li>
               </ul>
@@ -77,29 +88,35 @@ class Header extends Component {
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to="/login">
-                    <div className="nav-link" style={{ cursor: 'pointer' }}>
-                      <i className="material-icons">layers</i> Log In
+                    <div
+                      className="nav-link"
+                      style={{ cursor: 'pointer', color: '#fff' }}
+                    >
+                      <i className="fas fa-sign-in-alt"></i> Log In
                     </div>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/signup">
-                    <div className="nav-link" style={{ cursor: 'pointer' }}>
-                      <i className="material-icons">layers</i> Sign Up
+                    <div
+                      className="nav-link"
+                      style={{ cursor: 'pointer', color: '#fff' }}
+                    >
+                      <i className="fas fa-user-plus"></i> Sign Up
                     </div>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <div className="nav-link" style={{ cursor: 'pointer' }}>
-                    <a href="#about">
-                      <i className="material-icons">layers</i> About Us
+                    <a href="#about" style={{ color: '#fff' }}>
+                      <i className="fas fa-file"></i> About Us
                     </a>
                   </div>
                 </li>
                 <li className="nav-item">
                   <div className="nav-link" style={{ cursor: 'pointer' }}>
-                    <a href="#contact">
-                      <i className="material-icons">layers</i> Contact Us
+                    <a href="#contact" style={{ color: '#fff' }}>
+                      <i className="fa fa-phone"></i> Contact Us
                     </a>
                   </div>
                 </li>

@@ -254,7 +254,7 @@ export const deletepqsArray = id => {
   };
 };
 
-export const deletePastquestion = data => {
+export const deletePastquestion = (data, userId) => {
   console.log(data, 'i am');
   return dispatch => {
     axios
@@ -264,6 +264,7 @@ export const deletePastquestion = data => {
           type: DELETE_PQUESTION,
           payload: res.data.message
         });
+        dispatch(getuserInfo(userId));
         Swal.fire({
           type: 'success',
           text: res.data

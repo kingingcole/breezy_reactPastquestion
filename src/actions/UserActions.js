@@ -76,22 +76,29 @@ export const usereditPix = image => {
   };
 };
 
-/**export const updatePix = (photos, id) => {
-  let data = {
+export const updatePix = (photos, id) => {
+  let formData = {
     photos,
     id
   };
+  console.log(photos);
 
-  let dataToServer = new FormData();
-  dataToServer.set("id", id);
-  dataToServer.append("photos", [photos]);
+  /**const formData = new FormData();
+  formData.append('photos', photos);
+  formData.append('id', id);
+  console.log(formData);*/
+
+  /**let dataToServer = new FormData();
+  dataToServer.append('id', id);
+  dataToServer.append('photos', photos);
+  console.log(dataToServer);*/
 
   return dispatch => {
     axios({
-      method: "post",
-      url: "http://qpast.ng/api/v1/user/edit",
-      data: dataToServer,
-      config: { header: { "Content-Type": "multipart/form-data" } }
+      method: 'post',
+      url: 'https://pastquestions.xyz/api/v1/user/edit',
+      data: formData,
+      config: { header: { 'Content-Type': 'multipart/form-data' } }
     })
       .then(res => {
         dispatch({
@@ -102,11 +109,11 @@ export const usereditPix = image => {
           console.log(res.data.message);
         }
       })
-      .catch(err => console.log(err, "i am err"));
+      .catch(err => console.log(err, 'i am err'));
   };
-};*/
+};
 
-export const updatePix = photo => {
+/**export const updatePix = photo => {
   return dispatch => {
     axios
       .post('https://pastquestions.xyz/api/v1/user/edit', { img_url: photo })
@@ -121,4 +128,4 @@ export const updatePix = photo => {
       })
       .catch(err => console.log(err, 'i am err'));
   };
-};
+};*/

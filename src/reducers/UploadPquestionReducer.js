@@ -12,7 +12,8 @@ import {
   UPLOADPARAM_VALUE,
   JS_VOTEUP,
   JS_VOTEDOWN,
-  COMMENT_QUESTION
+  COMMENT_QUESTION,
+  CONTACT_US
 } from '../actions/types';
 
 const initialState = {
@@ -144,6 +145,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         singleitemid: action.payload
+      };
+    case CONTACT_US:
+      return {
+        ...state,
+        all_name: '',
+        all_email: '',
+        all_message: ''
       };
 
     default:
