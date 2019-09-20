@@ -76,48 +76,30 @@ export const usereditPix = image => {
   };
 };
 
-/**export const updatePix = (photos, id) => {
-  let data = {
+export const updatePix = (photos, id) => {
+  let formData = {
     photos,
     id
   };
+  console.log(photos);
 
-  let dataToServer = new FormData();
-  dataToServer.set("id", id);
-  dataToServer.append("photos", [photos]);
+  /**const formData = new FormData();
+  formData.append('photos', photos);
+  formData.append('id', id);
+  console.log(formData);*/
+
+  /**let dataToServer = new FormData();
+  dataToServer.append('id', id);
+  dataToServer.append('photos', photos);
+  console.log(dataToServer);*/
 
   return dispatch => {
     axios({
-      method: "post",
-      url: "http://qpast.ng/api/v1/user/edit",
-      data: dataToServer,
-      config: { header: { "Content-Type": "multipart/form-data" } }
+      method: 'post',
+      url: 'https://pastquestions.xyz/api/v1/user/edit',
+      data: formData,
+      config: { header: { 'Content-Type': 'multipart/form-data' } }
     })
-      .then(res => {
-        dispatch({
-          type: UPDATE_PIX,
-          payload: res.data
-        });
-        if (res.data) {
-          console.log(res.data.message);
-        }
-      })
-      .catch(err => console.log(err, "i am err"));
-  };
-};*/
-
-export const updatePix = (photos, id) => {
-  console.log(photos, 'the file actually came here');
-
-  let data = {
-    photos,
-    id
-  };
-  const config = { header: { 'Content-Type': 'multipart/form-data' } };
-
-  return dispatch => {
-    axios
-      .post('https://pastquestions.xyz/api/v1/user/edit', data, config)
       .then(res => {
         dispatch({
           type: UPDATE_PIX,
@@ -130,3 +112,20 @@ export const updatePix = (photos, id) => {
       .catch(err => console.log(err, 'i am err'));
   };
 };
+
+/**export const updatePix = photo => {
+  return dispatch => {
+    axios
+      .post('https://pastquestions.xyz/api/v1/user/edit', { img_url: photo })
+      .then(res => {
+        dispatch({
+          type: UPDATE_PIX,
+          payload: res.data
+        });
+        if (res.data) {
+          console.log(res.data.message);
+        }
+      })
+      .catch(err => console.log(err, 'i am err'));
+  };
+};*/

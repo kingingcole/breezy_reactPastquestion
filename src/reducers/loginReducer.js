@@ -3,21 +3,22 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   INITIALIZE_USER,
-  UPDATE_PASSWORD
-} from "../actions/types";
-import axios from "axios";
+  UPDATE_PASSWORD,
+  FORGOTLOGIN_USER
+} from '../actions/types';
+import axios from 'axios';
 
 const initialState = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
   auth: false,
   loggedOut: true,
   token: {},
   user: {},
-  forgotemail: "",
-  current_password: "",
-  new_password: "",
-  confirm_password: ""
+  forgotemail: '',
+  current_password: '',
+  new_password: '',
+  confirm_password: ''
 };
 
 export default function(state = initialState, action) {
@@ -66,12 +67,17 @@ export default function(state = initialState, action) {
         ...state,
         loggedOut: action.payload
       };
+    case FORGOTLOGIN_USER:
+      return {
+        ...state,
+        forgotemail: ''
+      };
     case UPDATE_PASSWORD:
       return {
         ...state,
-        current_password: "",
-        new_password: "",
-        confirm_password: ""
+        current_password: '',
+        new_password: '',
+        confirm_password: ''
       };
 
     default:
@@ -80,12 +86,12 @@ export default function(state = initialState, action) {
 }
 
 const storeToken = payload => {
-  localStorage.setItem("token", JSON.stringify(payload));
+  localStorage.setItem('token', JSON.stringify(payload));
 
-  axios.defaults.headers.common["Authorization"] =
-    "Bearer " + payload.accessToken;
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + payload.accessToken;
 };
 
 const storeUser = payload => {
-  localStorage.setItem("user", JSON.stringify(payload));
+  localStorage.setItem('user', JSON.stringify(payload));
 };

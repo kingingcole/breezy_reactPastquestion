@@ -19,7 +19,16 @@ export const loginUser = (email, password) => {
           payload: res.data.data
         });
       })
-      .catch(err => console.log(err, 'i am err'));
+      .catch(err => {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: err.response
+            ? err.response.data.message
+            : 'Something went wrong',
+          confirmButtonText: 'Ok'
+        });
+      });
   };
 };
 
@@ -63,7 +72,7 @@ export const forgotloginUser = email => {
   };
   return dispatch => {
     axios
-      .post('https://pastquestions.xyz/api/v1/auth/reset', data)
+      .post('https://pastquestions.xyz/api/v1/auth/forgot', data)
       .then(res => {
         dispatch({
           type: FORGOTLOGIN_USER,

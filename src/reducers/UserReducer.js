@@ -1,10 +1,10 @@
-import { GET_USER, USEREDIT_VALUE, USER_EDITPIX } from "../actions/types";
+import { GET_USER, USEREDIT_VALUE, USER_EDITPIX } from '../actions/types';
 
 const initialState = {
-  singleusername: "",
-  singleuserphone: "",
-  singleuserdesc: "",
-  singleuserid: "",
+  singleusername: '',
+  singleuserphone: '',
+  singleuserdesc: '',
+  singleuserid: '',
   singleuser: {},
   singleuserdocs: [],
   userpix: []
