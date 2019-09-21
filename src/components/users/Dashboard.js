@@ -18,11 +18,11 @@ class Dashboard extends Component {
   }
 
   state = {
-    course_name: '',
-    school: '',
-    year: '',
+    course_name: 'ggggg',
+    school: 'ggggg',
+    year: '1999',
     course_code: '',
-    department: '',
+    department: 'ggggg',
     semester: '',
     photos: [],
     docs: [],
