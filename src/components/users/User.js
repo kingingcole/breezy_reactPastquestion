@@ -69,7 +69,7 @@ class User extends Component {
     const { id } = this.props.user;
     console.log(id);
     let form_data = new FormData();
-    form_data.append('picture', this.state.image, this.state.image.name);
+    form_data.append('photos', this.state.image, this.state.image.name);
     form_data.append('id', id);
     let url = 'https://pastquestions.xyz/api/v1/user/edit';
     axios.post(url, form_data, {

@@ -10,66 +10,73 @@ import {
 } from '../../actions/UploadPquestionActions';
 import { connect } from 'react-redux';
 import { isNull } from 'util';
+import axios from 'axios'
 
 class Dashboard extends Component {
   componentWillMount() {
     this.props.getpastQuestion();
   }
-  onImageChange = e => {
-    const files = Array.from(e.target.files);
-    console.log(e.target.files);
-    console.log(files);
-    this.props.imgdocValue(true);
-    let formData = new FormData();
 
-    files.forEach = (file, i) => {
-      formData.append('images' + i, file);
-      console.log(formData);
-    };
+  state = {
+    course_name: '',
+    school: '',
+    year: '',
+    course_code: '',
+    department: '',
+    semester: '',
+    photos: [],
+    docs: [],
+  }
 
-    this.props.uploadpquestionValue({
-      props: e.target.name,
-      value: formData
-    });
+  handleTextChange = (e) => {
+    this.setState({
+     [e.target.id] : e.target.value 
+   })
   };
 
-  onDocChange = e => {
-    const files = Array.from(e.target.files);
-    this.props.imgdocValue(true);
+  handleImageChange = e => {
+    this.setState({
+      photos: e.target.files
+    })
+  }
 
-    let formData = new FormData();
-    files.map = (file, i) => {
-      formData.append('docs' + i, file);
-    };
-    this.props.uploadpquestionValue({
-      props: e.target.name,
-      value: formData
-    });
-  };
+  handleDocChange = e => {
+    this.setState({
+      docs: e.target.files
+    })
+  }
 
-  submit = e => {
-    let {
-      course_name,
-      school,
-      year,
-      course_code,
-      department,
-      semester,
-      images,
-      docs
-    } = this.props;
-
-    docs.append('course_name', course_name);
-    docs.append('course_code', course_code);
-    docs.append('year', year);
-    docs.append('department', department);
-    docs.append('school', school);
-    docs.append('semester', semester);
-    console.log(images.entries(), docs);
-    this.props.uploadPquestion(docs);
-
+  handleSubmit = (e) => {
     e.preventDefault();
-  };
+    let {course_name, school, year, course_code, department, semester} = this.state;
+    let form_data = new FormData();
+    const photos = [...this.state.photos]
+    const docs = [...this.state.docs]
+    photos.forEach((photo, i) => {
+      form_data.append('photos[]', photo, photo.name)
+    })
+    docs.forEach((doc, i) => {
+      form_data.append('docs[]', doc, doc.name)
+    })
+    form_data.append('course_code', course_code)
+    form_data.append('course_name', course_name)
+    form_data.append('school', school)
+    form_data.append('year', year)
+    form_data.append('department', department)
+    form_data.append('semester', semester)
+
+    console.log(docs)
+
+    let url = 'https://pastquestions.xyz/api/v1/pastquestion/create';
+    axios.post(url, form_data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
+        .then(res => console.log(res))
+        .catch(err => console.log(err.response))
+
+  }
 
   search = e => {
     const { search } = this.props;
@@ -104,7 +111,7 @@ class Dashboard extends Component {
       results_state
     } = this.props;
 
-    console.log(results);
+    console.log(this.state.course_name);
 
     return (
       <div className="landing-page sidebar-collapse">
@@ -325,24 +332,20 @@ class Dashboard extends Component {
                 <div className="col-md-8 ml-auto mr-auto">
                   <h2 className="text-center title">Upload Question Papers</h2>
 
-                  <form className="contact-form">
+                  <form onSubmit={this.handleSubmit} className="contact-form">
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
                           <label className="bmd-label-floating">
                             Course Name
                           </label>
-                          <input
+                          <input required
+                            id="course_name"
                             type="text"
                             name="course_name"
                             className="form-control"
-                            value={course_name}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.course_name}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
@@ -351,17 +354,13 @@ class Dashboard extends Component {
                           <label className="bmd-label-floating">
                             Course Code
                           </label>
-                          <input
+                          <input required
+                            id="course_code"
                             type="text"
                             name="course_code"
                             className="form-control"
-                            value={course_code}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.course_code}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
@@ -372,34 +371,26 @@ class Dashboard extends Component {
                           <label className="bmd-label-floating">
                             Department
                           </label>
-                          <input
+                          <input required
+                            id="department"
                             type="text"
                             name="department"
                             className="form-control"
-                            value={department}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.department}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label className="bmd-label-floating">Semester</label>
-                          <input
+                          <input required
+                            id="semester"
                             type="text"
                             name="semester"
                             className="form-control"
-                            value={semester}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.semester}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
@@ -408,34 +399,26 @@ class Dashboard extends Component {
                       <div className="col-md-6 mb-3">
                         <div className="form-group">
                           <label className="bmd-label-floating">School</label>
-                          <input
+                          <input required
+                            id="school"
                             type="text"
                             name="school"
                             className="form-control"
-                            value={school}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.school}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label className="bmd-label-floating">Year</label>
-                          <input
-                            type="text"
+                          <input required
+                            id="year"
+                            type="number"
                             name="year"
                             className="form-control"
-                            value={year}
-                            onChange={e =>
-                              this.props.uploadpquestionValue({
-                                props: e.target.name,
-                                value: e.target.value
-                              })
-                            }
+                            value={this.state.year}
+                            onChange={this.handleTextChange}
                           />
                         </div>
                       </div>
@@ -447,12 +430,13 @@ class Dashboard extends Component {
                             <span className="input-group-text">Images</span>
                           </div>
                           <div className="custom-file">
-                            <input
+                            <input required
+                              accept="image/*"
                               type="file"
                               name="images"
                               className="file-input"
                               id="inputGroupFile01"
-                              onChange={this.onImageChange.bind(this)}
+                              onChange={this.handleImageChange}
                               multiple
                             />
                           </div>
@@ -464,12 +448,13 @@ class Dashboard extends Component {
                             <span className="input-group-text">Docs</span>
                           </div>
                           <div className="custom-file">
-                            <input
+                            <input required
+                              accept=".doc, .docx, .pdf, .txt, .rtf"
                               type="file"
                               name="docs"
                               className="file-input"
                               id="inputGroupFile02"
-                              onChange={this.onDocChange.bind(this)}
+                              onChange={this.handleDocChange}
                               multiple
                             />
                           </div>
@@ -482,8 +467,7 @@ class Dashboard extends Component {
                         <button
                           className="btn btn-primary btn-raised"
                           style={{ marginTop: 25 }}
-                          type="button"
-                          onClick={this.submit.bind(this)}
+                          type="submit"
                         >
                           Upload
                         </button>
